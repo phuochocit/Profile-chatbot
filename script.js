@@ -15,9 +15,13 @@ const fileCancelButton = document.querySelector("#file-cancel");
 const chatbotToggler = document.querySelector("#chatbot-toggler");
 const closeChatbot = document.querySelector("#close-chatbot");
 
-// API setup
-const API_KEY = "AIzaSyD_Rb3xGa5411FY_-dbRJmeDW_gsq_993w";
-const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+// // API setup 1.0
+// const API_KEY = "AIzaSyD_Rb3xGa5411FY_-dbRJmeDW_gsq_993w";
+// const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+// API setup 2.0
+const API_KEY = "AIzaSyAvhoG_2Tp_i7beCwSgQW3Ngyb2XJQ537I";
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
 const userData = {
     message: null,
@@ -63,7 +67,7 @@ const genereBotResponse = async (incomingMessageDiv) => {
         if(!response.ok) throw new Error(data.error.message);
 
         // Trích xuất và hiển thị văn bản phản hồi của bot              
-        const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>").trim();
+        const apiResponseText = data.candidates[0].content.parts[0].text.replace(/^\*+\s?/gm, "").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>").trim();
         messageElement.innerHTML = apiResponseText;       
 
         // Thêm phản hồi của bot vào lịch sử trò chuyện
